@@ -1,0 +1,25 @@
+#include "../Defaults.xcconfig"
+//
+//  Config.xcconfig
+//  ReactNativeShell
+//
+//  Created by Ranjan Shrestha on 8/27/26.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+// Product Identifier
+// Override the default values from environment
+
+
+
+// The unique id based on dot separated domain name
+APP_BUNDLE_IDENTIFIER=$(ENV_APP_BUNDLE_IDENTIFIER)
+// The Product Display name
+APP_DISPLAY_NAME=$(ENV_APP_DISPLAY_NAME)
+// Product module name (file names and all)
+APP_MODULE_NAME=$(ENV_APP_MODULE_NAME)
+// Marketing version as seen by user
+APP_MARKETING_VERSION=$(ENV_APP_MARKETING_VERSION)
+// Internal build number
+APP_BUILD_VERSION=$(ENV_APP_BUILD_VERSION)
