@@ -15,7 +15,9 @@ if linkage != nil
 end
 
 target 'ReactNativeShell' do
-  config = use_native_modules!
+  config = Dir.chdir("..") do
+    use_native_modules!()
+  end
 
   use_react_native!(
     :path => config[:reactNativePath],

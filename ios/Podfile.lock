@@ -1,4 +1,26 @@
 PODS:
+  - AsyncStorage (3.1.1):
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-bridging
+    - React-Core
+    - React-Core-prebuilt
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - Yoga
   - boost (1.84.0):
     - ReactNativeDependencies
   - DoubleConversion (1.1.6):
@@ -1315,6 +1337,28 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
+  - react-native-webview (14.0.1):
+    - hermes-engine
+    - RCTRequired
+    - RCTTypeSafety
+    - React-bridging
+    - React-Core
+    - React-Core-prebuilt
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/core
+    - ReactNativeDependencies
+    - Yoga
   - React-NativeModulesApple (0.87.0):
     - hermes-engine
     - React-bridging
@@ -1679,6 +1723,7 @@ PODS:
     - React-Core-prebuilt
 
 DEPENDENCIES:
+  - "AsyncStorage (from `../../ReactNativeExample/node_modules/@react-native-async-storage/async-storage`)"
   - boost (from `build/rndeps-facades/boost`)
   - DoubleConversion (from `build/rndeps-facades/DoubleConversion`)
   - fast_float (from `build/rndeps-facades/fast_float`)
@@ -1727,7 +1772,8 @@ DEPENDENCIES:
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - React-mutationobservernativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/mutationobserver`)
-  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-safe-area-context (from `../../ReactNativeExample/node_modules/react-native-safe-area-context`)
+  - react-native-webview (from `../../ReactNativeExample/node_modules/react-native-webview`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-networking (from `../node_modules/react-native/ReactCommon/react/networking`)
   - React-oscompat (from `../node_modules/react-native/ReactCommon/oscompat`)
@@ -1768,6 +1814,8 @@ DEPENDENCIES:
   - Yoga (from `build/rncore-facades/Yoga`)
 
 EXTERNAL SOURCES:
+  AsyncStorage:
+    :path: "../../ReactNativeExample/node_modules/@react-native-async-storage/async-storage"
   boost:
     :path: build/rndeps-facades/boost
   DoubleConversion:
@@ -1864,7 +1912,9 @@ EXTERNAL SOURCES:
   React-mutationobservernativemodule:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/mutationobserver"
   react-native-safe-area-context:
-    :path: "../node_modules/react-native-safe-area-context"
+    :path: "../../ReactNativeExample/node_modules/react-native-safe-area-context"
+  react-native-webview:
+    :path: "../../ReactNativeExample/node_modules/react-native-webview"
   React-NativeModulesApple:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
   React-networking:
@@ -1943,6 +1993,7 @@ EXTERNAL SOURCES:
     :path: build/rncore-facades/Yoga
 
 SPEC CHECKSUMS:
+  AsyncStorage: d46e0a56f22c0cc1228bb0126149e20ef0179dbb
   boost: 2a9d6e1d9873337543f08d9dbc007b288f4e113b
   DoubleConversion: e85e4faac763226bfd1cc4c6a98d8355149b27a5
   fast_float: 908e5ee35999f3d91af4b962ac951acac591866c
@@ -1991,6 +2042,7 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: e0095be041c79483d1d3fded0c682c31d351730f
   React-mutationobservernativemodule: edfe5f0e9548231a767c3a1db6fc52926da0002a
   react-native-safe-area-context: 352ca3a1d913db1068dcd86669bf60d59608d6eb
+  react-native-webview: 3e750a1f0c41f792a219131b9ddab41d04cfdd8b
   React-NativeModulesApple: 9f0679a0f98eecd53150ebb6cba645f73a92434a
   React-networking: cabb0d227644bddc24f5e7dba0f5c4a8ea9b8723
   React-oscompat: 72573ceb65b6c6c6bc34e51e0df8f44c91081a6d
@@ -2030,6 +2082,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57b1af80c029e12a75cd9b218287c67381e4593
   Yoga: 58b502c52b14ad3c4468805d461fc37d275c2a42
 
-PODFILE CHECKSUM: 03e49ab643379d254a7c8f9d6445ae8d6ebcba4b
+PODFILE CHECKSUM: e1bf9d1a695003c62b2881aea30b627870880857
 
 COCOAPODS: 1.15.2
