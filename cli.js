@@ -85,6 +85,15 @@ fs.writeFileSync('.runtime.config.json', JSON.stringify(buildConfig, undefined, 
 // Create app icon set
 execSync("npx iconset create")
 
+
+
+// Create splash screen assets
+const icon = buildConfig.splashIcon || buildConfig.appIcon || './icons/app-icon.png'
+const backColor = buildConfig.splashBackColor || '#f5f5f5';
+const logoSize = buildConfig.splashIconSize || 128;
+
+execSync(`npx react-native-bootsplash generate "${icon}" --background=${backColor} --logo-width=${logoSize}`)
+
 // In case of a run-android command override the appId
 if (process.argv[2] === 'run-android') {
   process.argv.push('--appId');

@@ -3,6 +3,9 @@ import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
 
+// Splash screen library (react-native-bootsplash)
+import RNBootSplash
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
@@ -44,5 +47,11 @@ class ReactNativeDelegate: RCTDefaultReactNativeFactoryDelegate {
 #else
     Bundle.main.url(forResource: "main", withExtension: "jsbundle")
 #endif
+  }
+
+  // Splash screen library react-native-bootsplash
+  override func customize(_ rootView: RCTRootView) {
+    super.customize(rootView)
+    RNBootSplash.initWithStoryboard("BootSplash", rootView: rootView)
   }
 }

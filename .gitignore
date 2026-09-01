@@ -94,3 +94,10 @@ android/app/src/main/res/*/ic_launcher.png
 android/app/src/main/res/*/ic_launcher_round.png
 
 ios/ReactNativeShell/Images.xcassets/AppIcon.appiconset/*
+
+# Ignore boot splash assets
+android/app/src/main/res/*/bootsplash_logo.png
+ios/ReactNativeShell/Colors.xcassets/BootSplashBackground-9acae5.colorset
+#ios/ReactNativeShell/Images.xcassets/BootSplashBackground-9acae5.colorset
+#ios/ReactNativeShell/Images.xcassets/BootSplashBackground-9acae5.imageset
+ios/ReactNativeShell/Images.xcassets/BootSplashLogo-9acae5.imageset
