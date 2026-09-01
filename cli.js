@@ -29,6 +29,12 @@ const buildConfig = {
   moduleName: options.moduleName || toSnakeCase(options.name),
   id: options.id,
   buildNumber: options.buildNumber || 1,
+
+  appIcon: options.appIcon,
+
+  splashIconSize: options.splashIconSize,
+  splashIcon: options.splashIcon,
+  splashBackColor: options.splashBackColor,
 }
 
 // Configuration Override

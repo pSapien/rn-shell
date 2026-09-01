@@ -97,7 +97,6 @@ ios/ReactNativeShell/Images.xcassets/AppIcon.appiconset/*
 
 # Ignore boot splash assets
 android/app/src/main/res/*/bootsplash_logo.png
-ios/ReactNativeShell/Colors.xcassets/BootSplashBackground-9acae5.colorset
-#ios/ReactNativeShell/Images.xcassets/BootSplashBackground-9acae5.colorset
-#ios/ReactNativeShell/Images.xcassets/BootSplashBackground-9acae5.imageset
-ios/ReactNativeShell/Images.xcassets/BootSplashLogo-9acae5.imageset
+ios/ReactNativeShell/Colors.xcassets/BootSplashBackground-*.colorset
+ios/ReactNativeShell/Images.xcassets/BootSplashLogo-*.imageset
+ios/ReactNativeShell/BootSplash.storyboard
