@@ -74,11 +74,10 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
-def runTimeConfig = rootProject.file("../../.runtime.config.json")
+def runTimeConfig = rootProject.file("../.runtime.config.json")
 def config = [id: "com.bhoos.shell.default", displayName: "RN Shell", marketingVersion: "0.1", buildNumber: 1]
 if (runTimeConfig.exists()) {
-  def runTime = new JsonSlurper().parseText(configFile.text)
-  println runTime
+  def runTime = new JsonSlurper().parseText(runTimeConfig.text)
   config.id = runTime.id ?: config.id
   config.displayName = runTime.displayName ?: config.displayName
   config.marketingVersion = runTime.version ?: config.marketingVersion

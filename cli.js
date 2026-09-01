@@ -94,6 +94,11 @@ fs.writeFileSync('.runtime.config.json', JSON.stringify(buildConfig, undefined, 
 //     },
 //   });
 // }
+// In case of a run-android command override the appId
+if (process.argv[2] === 'run-android') {
+  process.argv.push('--appId');
+  process.argv.push(buildConfig.id);
+}
 
 // run via react-native cli
 rncli.run('react-native');
