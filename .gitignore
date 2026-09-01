@@ -77,3 +77,13 @@ yarn-error.log
 
 # configuration file generated at run time
 .runtime.config.json
+Defaults.xcconfig
+
+# Ignore assets folder as files will be dynamically copied here
+/assets
+/android/app/src/main/assets
+
+# Ignore package locks as we want to rebuild everytime
+# Pod file changes will take place due to changes in application dependencies
+/ios/Podfile.lock
+/package-lock.json

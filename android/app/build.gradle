@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
@@ -72,6 +74,21 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
+def runTimeConfig = rootProject.file("../../.runtime.config.json")
+def config = [id: "com.bhoos.shell.default", displayName: "RN Shell", marketingVersion: "0.1", buildNumber: 1]
+if (runTimeConfig.exists()) {
+  def runTime = new JsonSlurper().parseText(configFile.text)
+  println runTime
+  config.id = runTime.id ?: config.id
+  config.displayName = runTime.displayName ?: config.displayName
+  config.marketingVersion = runTime.version ?: config.marketingVersion
+  config.buildNumber = runTime.buildNumber ?: config.buildNumber
+}
+
+println "Runtime Configuration"
+println config
+
+
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -79,11 +96,13 @@ android {
 
     namespace "com.reactnativeshell"
     defaultConfig {
-        applicationId "com.reactnativeshell"
+        manifestPlaceholders["displayName"] = config.displayName
+
+        applicationId config.id
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode config.buildNumber
+        versionName config.marketingVersion
     }
     signingConfigs {
         debug {

@@ -12,7 +12,7 @@ const runTimeConfig = JSON.parse(fs.readFileSync('./.runtime.config.json'));
 const defaultConfig = getDefaultConfig(__dirname);
 
 const shellRoot = __dirname;
-const workspaceRoot = undefined;
+const workspaceRoot = runTimeConfig.workspaceRoot;
 const applicationRoot = runTimeConfig.directory;
 
 const config = {
@@ -39,6 +39,7 @@ const config = {
 if (workspaceRoot) {
   // config.watchFolders.push(workspaceRoot);
   config.resolver.nodeModulesPaths.push(path.resolve(workspaceRoot, 'node_modules'));
+  config.watchFolders.push(workspaceRoot);
 }
 
 

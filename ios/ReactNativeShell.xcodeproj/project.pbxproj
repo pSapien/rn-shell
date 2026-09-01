@@ -115,6 +115,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+				501D17FF3045903700F858C8 /* Bundle External Assets and Fonts */,
 			);
 			buildRules = (
 			);
@@ -203,6 +204,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReactNativeShell/Pods-ReactNativeShell-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		501D17FF3045903700F858C8 /* Bundle External Assets and Fonts */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle External Assets and Fonts";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTARGET_PLIST=${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\n\nPLISTBUDDY=\"/usr/libexec/PlistBuddy\"\n\n# Remove any custom fonts to avoid conflict\n$PLISTBUDDY -c \"Delete :UIAppFonts\" \"$TARGET_PLIST\"\n\n# Create an empty font list\n$PLISTBUDDY -c \"Add :UIAppFonts array\" \"$TARGET_PLIST\"\n\n# Link all resources in the assets folder\nRESOURCE_SRC=\"$SRCROOT/../assets/\"\nTARGET_DIR=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/assets/\"\nif [ -e \"$RESOURCE_SRC\" ]; then\n  mkdir -p $TARGET_DIR\n  rsync -rtv --copy-unsafe-links \"$RESOURCE_SRC/\" \"$TARGET_DIR\"\n  echo \"Successfully injected resource into app bundle: $RESOURCE_SRC\"\nelse\n  echo \"Warning: Resource source path not found: $RESOURCE_SRC\"\nfi\n\nL=${#RESOURCE_SRC}\nfor path in $(find -L \"$RESOURCE_SRC\" -type f -name \"*.ttf\" -o -name \"*.otf\"); do\n  FONT_FILE=\"assets/${path:$L}\"\n  echo \"Creating entry for font file: $FONT_FILE\"\n  \n  $PLISTBUDDY -c \"Add :UIAppFonts: string $FONT_FILE\" \"$TARGET_PLIST\"\ndone\n# Search for all font files within \n# FONT_NAME=\"Ionicons.ttf\"\n# $PLISTBUDDY -c \"Add :UIAppFonts: string $FONT_NAME\" \"$TARGET_PLIST\"\n";
 		};
 		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

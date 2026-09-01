@@ -12,14 +12,13 @@
 // Override the default values from environment
 
 
-
 // The unique id based on dot separated domain name
-APP_BUNDLE_IDENTIFIER=$(ENV_APP_BUNDLE_IDENTIFIER)
+APP_BUNDLE_IDENTIFIER=$(ENV_APP_BUNDLE_IDENTIFIER:default=com.bhoos.shell.example)
 // The Product Display name
-APP_DISPLAY_NAME=$(ENV_APP_DISPLAY_NAME)
+APP_DISPLAY_NAME=$(ENV_APP_DISPLAY_NAME:default=Bhoos Shell)
 // Product module name (file names and all)
-APP_MODULE_NAME=$(ENV_APP_MODULE_NAME)
+APP_MODULE_NAME=$(ENV_APP_MODULE_NAME:default=bhoos_shell)
 // Marketing version as seen by user
-APP_MARKETING_VERSION=$(ENV_APP_MARKETING_VERSION)
+APP_MARKETING_VERSION=$(ENV_APP_MARKETING_VERSION:default=0.1)
 // Internal build number
-APP_BUILD_VERSION=$(ENV_APP_BUILD_VERSION)
+APP_BUILD_VERSION=$(ENV_APP_BUILD_VERSION:default=1)
