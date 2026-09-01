@@ -2,6 +2,9 @@
 const fs = require('fs');
 const path = require('path');
 const rncli = require(require.resolve(path.resolve(__dirname, "node_modules", "@react-native-community", "cli")));
+
+const { execSync } = require('child_process');
+
 // const {linkAssets} = require(require.resolve(path.resolve(__dirname, "node_modules", 'react-native-asset')));
 
 const toSnakeCase = str => {
@@ -79,21 +82,9 @@ ENV_APP_BUILD_VERSION=${buildConfig.buildNumber}
 fs.writeFileSync('.runtime.config.json', JSON.stringify(buildConfig, undefined, 2));
 
 
-// if (config.assets) {
-//   linkAssets({
-//     rootPath: buildConfig.directory,
-//     platforms: {
-//       ios: {
-//         enabled: true,
-//         assets: config.assets,
-//       },
-//       android: {
-//         enabled: true,
-//         assets: config.assets,
-//       },
-//     },
-//   });
-// }
+// Create app icon set
+execSync("npx iconset create")
+
 // In case of a run-android command override the appId
 if (process.argv[2] === 'run-android') {
   process.argv.push('--appId');
