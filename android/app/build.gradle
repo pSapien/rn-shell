@@ -82,6 +82,8 @@ if (runTimeConfig.exists()) {
   config.displayName = runTime.displayName ?: config.displayName
   config.marketingVersion = runTime.version ?: config.marketingVersion
   config.buildNumber = runTime.buildNumber ?: config.buildNumber
+  config.deepLink = runTime.deepLink ?: ''
+  config.universalLink = runTime.universalLink ?: ''
 }
 
 println "Runtime Configuration"
@@ -96,6 +98,8 @@ android {
     namespace "com.reactnativeshell"
     defaultConfig {
         manifestPlaceholders["displayName"] = config.displayName
+        manifestPlaceholders["deepLink"] = config.deepLink
+        manifestPlaceholders["universalLink"] = config.universalLink
 
         applicationId config.id
         minSdkVersion rootProject.ext.minSdkVersion

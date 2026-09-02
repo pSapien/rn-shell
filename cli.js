@@ -35,6 +35,12 @@ const buildConfig = {
   splashIconSize: options.splashIconSize,
   splashIcon: options.splashIcon,
   splashBackColor: options.splashBackColor,
+
+  appleTeam: options.appleTeam,
+  androidFingerprint: options.androidFingerprint,
+
+  deepLink: options.deepLink,
+  universalLink: options.universalLink,
 }
 
 // Configuration Override
@@ -105,6 +111,76 @@ if (process.argv[2] === 'run-android') {
   process.argv.push('--appId');
   process.argv.push(buildConfig.id);
 }
+
+
+if (config.universalLink) {
+  let info = config.universalLink;
+  // in most cases the universal Link is directly set to domain
+  if (typeof info === 'string') {
+    info = {
+      paths: ["*"]
+    }
+  }
+
+  if (!config.appleTeam) {
+    console.warn('Apple TeamID (appleTeam) is not defined in configuration');
+  }
+
+  function withSlash(p) {
+    if (p.startsWith('/')) return p;
+    return '/' + p;
+  }
+
+  const aasa = {
+    applinks: {
+      apps: [],
+      details: [{
+        appIDs: [`${config.appleTeam}.${config.id}`],
+        paths: [info.paths ? info.paths : "*"],
+        components: info.paths ? info.paths.map(p => {
+          if (p.startsWith("NOT")) {
+            return {
+              "/": withSlash(p.substring(3).trim()),
+              exclude: true,
+            }
+          } else {
+            return {
+              "/": withSlash(p),
+            }
+          }
+        }) : [{ "/": "/*" }],
+      }]
+    }
+  };
+
+  // Generate univeral link and deepLink
+  fs.writeFileSync(
+    path.resolve(buildConfig.directory, 'apple-app-site-association'),
+    JSON.stringify(aasa, undefined, 2)
+  );
+
+
+  // Generate assetlinks.json
+  if (config.androidFingerprint) {
+    const fingerPrints = typeof config.androidFingerprint === 'string' ? [config.androidFingerprint] : config.androidFingerprint;
+
+    // Requires multiple item for each fingerprint
+    const links = fingerPrints.map(sha => ({
+      relation: ["delegate_permission/common.handle_all_urls"],
+      target: {
+        namespace: "android_app",
+        package_name: config.id,
+        sha256_cert_fingerprints: [sha],
+      },
+    }));
+
+    fs.writeFileSync(
+      path.resolve(buildConfig.directory, 'assetlinks.json'),
+      JSON.stringify(links, undefined, 2)
+    );
+  }
+}
+
 
 // run via react-native cli
 rncli.run('react-native');

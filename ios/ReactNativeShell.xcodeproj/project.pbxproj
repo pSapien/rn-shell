@@ -48,6 +48,7 @@
 		13B07FAE1A68108700A75B9A /* ReactNativeShell */ = {
 			isa = PBXGroup;
 			children = (
+				501D18043047E80500F858C8 /* ReactNativeShell.entitlements */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -121,7 +122,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
-				501D17FF3045903700F858C8 /* Bundle External Assets and Fonts */,
+				501D17FF3045903700F858C8 /* Bundle External Assets/Fonts and Linking */,
 			);
 			buildRules = (
 			);
@@ -204,16 +205,20 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ReactNativeShell/Pods-ReactNativeShell-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ReactNativeShell/Pods-ReactNativeShell-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReactNativeShell/Pods-ReactNativeShell-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		501D17FF3045903700F858C8 /* Bundle External Assets and Fonts */ = {
+		501D17FF3045903700F858C8 /* Bundle External Assets/Fonts and Linking */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -222,14 +227,14 @@
 			);
 			inputPaths = (
 			);
-			name = "Bundle External Assets and Fonts";
+			name = "Bundle External Assets/Fonts and Linking";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTARGET_PLIST=${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\n\nPLISTBUDDY=\"/usr/libexec/PlistBuddy\"\n\n# Remove any custom fonts to avoid conflict\n$PLISTBUDDY -c \"Delete :UIAppFonts\" \"$TARGET_PLIST\"\n\n# Create an empty font list\n$PLISTBUDDY -c \"Add :UIAppFonts array\" \"$TARGET_PLIST\"\n\n# Link all resources in the assets folder\nRESOURCE_SRC=\"$SRCROOT/../assets/\"\nTARGET_DIR=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/assets/\"\nif [ -e \"$RESOURCE_SRC\" ]; then\n  mkdir -p $TARGET_DIR\n  rsync -rtv --copy-unsafe-links \"$RESOURCE_SRC/\" \"$TARGET_DIR\"\n  echo \"Successfully injected resource into app bundle: $RESOURCE_SRC\"\nelse\n  echo \"Warning: Resource source path not found: $RESOURCE_SRC\"\nfi\n\nL=${#RESOURCE_SRC}\nfor path in $(find -L \"$RESOURCE_SRC\" -type f -name \"*.ttf\" -o -name \"*.otf\"); do\n  FONT_FILE=\"assets/${path:$L}\"\n  echo \"Creating entry for font file: $FONT_FILE\"\n  \n  $PLISTBUDDY -c \"Add :UIAppFonts: string $FONT_FILE\" \"$TARGET_PLIST\"\ndone\n# Search for all font files within \n# FONT_NAME=\"Ionicons.ttf\"\n# $PLISTBUDDY -c \"Add :UIAppFonts: string $FONT_NAME\" \"$TARGET_PLIST\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nTARGET_PLIST=${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\n\nPLISTBUDDY=\"/usr/libexec/PlistBuddy\"\n\n# Remove any custom fonts to avoid conflict\n$PLISTBUDDY -c \"Delete :UIAppFonts\" \"$TARGET_PLIST\"\n\n# Create an empty font list\n$PLISTBUDDY -c \"Add :UIAppFonts array\" \"$TARGET_PLIST\"\n\n# Link all resources in the assets folder\nRESOURCE_SRC=\"$SRCROOT/../assets/\"\nTARGET_DIR=\"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/assets/\"\nif [ -e \"$RESOURCE_SRC\" ]; then\n  mkdir -p $TARGET_DIR\n  rsync -rtv --copy-unsafe-links \"$RESOURCE_SRC/\" \"$TARGET_DIR\"\n  echo \"Successfully injected resource into app bundle: $RESOURCE_SRC\"\nelse\n  echo \"Warning: Resource source path not found: $RESOURCE_SRC\"\nfi\n\nL=${#RESOURCE_SRC}\nfor path in $(find -L \"$RESOURCE_SRC\" -type f -name \"*.ttf\" -o -name \"*.otf\"); do\n  FONT_FILE=\"assets/${path:$L}\"\n  echo \"Creating entry for font file: $FONT_FILE\"\n  \n  $PLISTBUDDY -c \"Add :UIAppFonts: string $FONT_FILE\" \"$TARGET_PLIST\"\ndone\n\necho \"Bundling external assets/fonts completed.\"\n# Search for all font files within \n# FONT_NAME=\"Ionicons.ttf\"\n# $PLISTBUDDY -c \"Add :UIAppFonts: string $FONT_NAME\" \"$TARGET_PLIST\"\n\n\n# Run script to update entitlement for applinks (universal link) and deep link\nXCODE_ENV=\"${SRCROOT}/.xcode.env\"\nXCODE_ENV_LOCAL=\"${SRCROOT}/.xcode.env.local\"\n# Source the primary environment file if it exists\nif [ -f \"$XCODE_ENV\" ]; then\n  source \"$XCODE_ENV\"\nfi\n# Source the local override environment file if it exists\nif [ -f \"$XCODE_ENV_LOCAL\" ]; then\n  source \"$XCODE_ENV_LOCAL\"\nfi\n$NODE_BINARY \"$SRCROOT/../scripts/generateEntitlements.js\";\n\necho \"Linking completed.\"\n";
 		};
 		C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -261,9 +266,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ReactNativeShell/Pods-ReactNativeShell-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-ReactNativeShell/Pods-ReactNativeShell-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -290,6 +299,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ReactNativeShell/ReactNativeShell.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6NQ77S8D54;
 				ENABLE_BITCODE = NO;
@@ -321,6 +331,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ReactNativeShell/ReactNativeShell.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = ReactNativeShell/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
