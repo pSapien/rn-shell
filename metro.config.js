@@ -18,7 +18,6 @@ const applicationRoot = runTimeConfig.directory;
 const config = {
   projectRoot: shellRoot,
   watchFolders: [
-    applicationRoot,
     shellRoot,
   ],
   resolver: {
@@ -40,6 +39,8 @@ if (workspaceRoot) {
   // config.watchFolders.push(workspaceRoot);
   config.resolver.nodeModulesPaths.push(path.resolve(workspaceRoot, 'node_modules'));
   config.watchFolders.push(workspaceRoot);
+} else {
+  config.watchFolders.push(applicationRoot);
 }
 
 
