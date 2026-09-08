@@ -16,12 +16,22 @@ const workspaceRoot = runTimeConfig.workspaceRoot;
 const applicationRoot = runTimeConfig.directory;
 
 const config = {
-  projectRoot: shellRoot,
+  projectRoot: applicationRoot,
   watchFolders: [
-    shellRoot,
+
   ],
   resolver: {
     ...defaultConfig.resolver,
+    resolveRequest: (context, moduleName, platform) => {
+      if (moduleName === "./index") {
+        return {
+          filePath: path.resolve(__dirname, 'index.js'),
+          type: 'sourceFile',
+        };
+      }
+      // console.log('Resolve Request', moduleName, platform);
+      return context.resolveRequest(context, moduleName, platform);
+    },
     disableHierarchicalLookup: true,
     nodeModulesPaths: [
       path.resolve(shellRoot, 'node_modules'),
@@ -42,6 +52,8 @@ if (workspaceRoot) {
 } else {
   config.watchFolders.push(applicationRoot);
 }
+
+config.watchFolders.push(shellRoot);
 
 
 //
