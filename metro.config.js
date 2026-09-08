@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
+const { getDefaultConfig } = require('@react-native/metro-config');
 
 const runTimeConfig = JSON.parse(fs.readFileSync('./.runtime.config.json'));
 // /**
@@ -16,6 +16,8 @@ const workspaceRoot = runTimeConfig.workspaceRoot;
 const applicationRoot = runTimeConfig.directory;
 
 const config = {
+  ...defaultConfig,
+
   projectRoot: applicationRoot,
   watchFolders: [
 
@@ -23,6 +25,7 @@ const config = {
   resolver: {
     ...defaultConfig.resolver,
     resolveRequest: (context, moduleName, platform) => {
+      console.log('Resolve request', platform, moduleName);
       if (moduleName === "./index") {
         if (!fs.existsSync(path.join(applicationRoot, 'index.js'))) {
           return {
@@ -43,7 +46,16 @@ const config = {
       // Point to the project root to load the main App component
       '@@app': applicationRoot,
     },
-  }
+  },
+  transformer: {
+    ...defaultConfig.transformer,
+
+    // Disabel babel.config.js
+    enableBabelRCLookup: false,
+
+    // Use our custom babel transformer
+    babelTransformerPath: require.resolve('./metro-transformer.js'),
+  },
 };
 
 // If we have an workspace we will need to watch that as well
@@ -57,40 +69,6 @@ if (workspaceRoot) {
 
 config.watchFolders.push(shellRoot);
 
+fs.appendFileSync('babel.log', JSON.stringify(defaultConfig));
 
-//
-// // console.log('Shell Root', shellRoot);
-// const config = {
-//   applicationRoot: runTimeConfig.directory,
-//   watchFolders: [
-//     runTimeConfig.directory,
-//     shellRoot,
-//   ],
-//   resolver: {
-//     ...defaultConfig.resolver,
-//     unstable_enableSymlinks: true,
-
-//     // do not search within folders
-//     // disableHierarchicalLookup: true,
-//     nodeModulesPaths: [
-//       path.resolve(runTimeConfig.directory, 'node_modules'),
-//       // path.resolve(shellRoot, 'node_modules'),
-//     ],
-//     extraNodeModules: {
-//       'react': path.resolve(shellRoot, 'node_modules/react'),
-//       'react-native': path.resolve(shellRoot, 'node_modules/react-native'),
-//     },
-//     // Prevent Metro from searching inside sub-node_modules for React
-//     blockList: [
-//       // path.resolve(runTimeConfig.directory, 'node_modules/react'),
-//       // path.resolve(runTimeConfig.directory, 'node_modules/react-native'),
-//       // new RegExp(/node_modules\/.*\/node_modules\/react\/.*/),
-//       // new RegExp(/node_modules\/.*\/node_modules\/react-native\/.*/),
-
-//     ],
-//   }
-// }
-
-// // console.log('Metro Config', defaultConfig, config);
-
-module.exports = mergeConfig(defaultConfig, config);
+module.exports = config;

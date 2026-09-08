@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const fs = require('fs');
+import fs = require('fs');
 const path = require('path');
 const rncli = require(require.resolve(path.resolve(__dirname, "node_modules", "@react-native-community", "cli")));
 
@@ -89,15 +89,21 @@ ENV_APP_BUILD_VERSION=${buildConfig.buildNumber}
 `);
 
 // Create symbolic link to assets folder for android
-// fs.symlinkSync(destAssetsFolder, path.resolve('android/app/src/main/assets'));
+const androidAssets = path.resolve('android/app/src/main/assets');
+if (fs.existsSync(androidAssets)) {
+  // Remove existing folder (rm -rf ...)
+  fs.rm(androidAssets, { recursive: true, force: true });
+}
+fs.symlinkSync(destAssetsFolder, androidAssets);
 
+
+// Generate runtime config file to be used within build scripts
 fs.writeFileSync('.runtime.config.json', JSON.stringify(buildConfig, undefined, 2));
 
 
 // Create app icon set
 console.log('Generating app icons');
 execSync("npx iconset create")
-
 
 
 // Create splash screen assets
