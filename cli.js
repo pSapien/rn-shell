@@ -95,6 +95,7 @@ fs.writeFileSync('.runtime.config.json', JSON.stringify(buildConfig, undefined, 
 
 
 // Create app icon set
+console.log('Generating app icons');
 execSync("npx iconset create")
 
 
@@ -104,13 +105,8 @@ const icon = buildConfig.splashIcon || buildConfig.appIcon || './icons/app-icon.
 const backColor = buildConfig.splashBackColor || '#f5f5f5';
 const logoSize = buildConfig.splashIconSize || 128;
 
+console.log('Generating bootsplash icons and background');
 execSync(`npx react-native-bootsplash generate "${icon}" --background=${backColor} --logo-width=${logoSize}`)
-
-// In case of a run-android command override the appId
-if (process.argv[2] === 'run-android') {
-  process.argv.push('--appId');
-  process.argv.push(buildConfig.id);
-}
 
 
 if (config.universalLink) {
@@ -181,6 +177,21 @@ if (config.universalLink) {
   }
 }
 
+
+
+// In case of a run-android command override the appId
+const cmd = process.argv[2];
+if (cmd.includes('android')) {
+  process.argv.push('--appId');
+  process.argv.push(buildConfig.id);
+} else if (cmd.includes('ios')) {
+  // perform a pod install first
+  console.log('pod install');
+  execSync("bundle exec pod install", {
+    cwd: path.resolve(__dirname, 'ios'),
+    stdio: 'inherit',
+  });
+}
 
 // run via react-native cli
 rncli.run('react-native');
