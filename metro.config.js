@@ -24,10 +24,12 @@ const config = {
     ...defaultConfig.resolver,
     resolveRequest: (context, moduleName, platform) => {
       if (moduleName === "./index") {
-        return {
-          filePath: path.resolve(__dirname, 'index.js'),
-          type: 'sourceFile',
-        };
+        if (!fs.existsSync(path.join(applicationRoot, 'index.js'))) {
+          return {
+            filePath: path.resolve(__dirname, 'index.js'),
+            type: 'sourceFile',
+          };
+        }
       }
       // console.log('Resolve Request', moduleName, platform);
       return context.resolveRequest(context, moduleName, platform);
