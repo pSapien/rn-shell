@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 const rncli = require(require.resolve(path.resolve(__dirname, "node_modules", "@react-native-community", "cli")));
 
@@ -91,8 +91,9 @@ ENV_APP_BUILD_VERSION=${buildConfig.buildNumber}
 // Create symbolic link to assets folder for android
 const androidAssets = path.resolve('android/app/src/main/assets');
 if (fs.existsSync(androidAssets)) {
+  console.log('Remove existing android assets');
   // Remove existing folder (rm -rf ...)
-  fs.rm(androidAssets, { recursive: true, force: true });
+  fs.rmSync(androidAssets, { recursive: true, force: true });
 }
 fs.symlinkSync(destAssetsFolder, androidAssets);
 

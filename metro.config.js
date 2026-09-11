@@ -19,8 +19,9 @@ const config = {
   ...defaultConfig,
 
   projectRoot: applicationRoot,
-  watchFolders: [
 
+  watchFolders: [
+    shellRoot,
   ],
   resolver: {
     ...defaultConfig.resolver,
@@ -67,8 +68,5 @@ if (workspaceRoot) {
   config.watchFolders.push(applicationRoot);
 }
 
-config.watchFolders.push(shellRoot);
-
-fs.appendFileSync('babel.log', JSON.stringify(defaultConfig));
 
 module.exports = config;

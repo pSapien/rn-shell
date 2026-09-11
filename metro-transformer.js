@@ -32,7 +32,6 @@ module.exports.transform = function ({ src, filename, options }) {
 
     if (result && result.code) {
       src = result.code;
-      fs.appendFileSync('babel.log', result.code);
     }
   }
 
