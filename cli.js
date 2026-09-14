@@ -4,6 +4,7 @@ const path = require('path');
 const rncli = require(require.resolve(path.resolve(__dirname, "node_modules", "@react-native-community", "cli")));
 
 const { execSync } = require('child_process');
+const updateInfoPlist = require('./scripts/updateInfoPlist');
 
 // const {linkAssets} = require(require.resolve(path.resolve(__dirname, "node_modules", 'react-native-asset')));
 
@@ -41,6 +42,9 @@ const buildConfig = {
 
   deepLink: options.deepLink,
   universalLink: options.universalLink,
+
+  infoPlistPath: path.join(__dirname, './ios/ReactNativeShell/Info.plist'),
+  infoPlistConfig: options?.ios?.infoPlist ?? null,
 }
 
 // Configuration Override
@@ -199,6 +203,8 @@ if (cmd.includes('android')) {
     stdio: 'inherit',
   });
 }
+
+updateInfoPlist(buildConfig.infoPlistPath, buildConfig.infoPlistConfig);
 
 // run via react-native cli
 rncli.run('react-native');
