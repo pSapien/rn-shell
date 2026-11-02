@@ -74,6 +74,27 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
+def getValueFromEnv(String envVarName, String defaultValue) {
+    def envVarValue = System.getenv(envVarName)
+    if (envVarValue != null) {
+        return new String(envVarValue.decodeBase64(), "UTF-8")
+    } else {
+        println ('Could not find env var ' + envVarName + ', using default value:: ' + defaultValue)
+        return defaultValue
+    }
+}
+
+def fileExists(String filePath) {
+    def fileFromPath = file(filePath)
+
+    if (!fileFromPath.exists()) {
+        println ('Could not find file at ' + filePath)
+        return false
+    }
+
+    return true
+}
+
 def runTimeConfig = rootProject.file("../.runtime.config.json")
 def config = [id: "com.bhoos.shell.default", displayName: "RN Shell", marketingVersion: "0.1", buildNumber: 1]
 if (runTimeConfig.exists()) {
@@ -113,6 +134,18 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+        release {
+            if (fileExists("$rootDir/../config/bhoos.keystore")) {
+                storeFile file("$rootDir/../config/bhoos.keystore")
+                keyAlias getProp('alias', getProp('app_name'))
+            } else {
+                println ('Could not find bhoos.keystore, using debug.keystore')
+                storeFile file("debug.keystore")
+                keyAlias 'androiddebugkey'
+            }
+            storePassword getValueFromEnv('NUMPLUS_KEYSTORE_PASSWORD', 'android')
+            keyPassword getValueFromEnv('NUMPLUS_KEYSTORE_APP_PASSWORD', 'android')
         }
     }
     buildTypes {
